@@ -5,17 +5,15 @@ import { AppState } from './app-state.interface';
 export class StatesService {
   private _states: AppState[] = [];
 
-  duplicateRouteInitError =
+  private _duplicateRouteInitError =
     '[StatesService] - Route can only be once added to state: ';
-
-  stateNotDefinedError = '[StatesService] - state not found';
+  private _stateNotDefinedError =
+    '[StatesService] - State not found. Please check if you have set up the StateGuard correctly.';
 
   initRoute(route: string): void {
     if (this._states.findIndex(s => s.routePath === route) >= 0) {
-      throw new Error(this.duplicateRouteInitError + route);
+      throw new Error(this._duplicateRouteInitError + route);
     }
-
-    console.log('Initialized state for ' + route);
 
     this._states.push({ routePath: route } as AppState);
   }
@@ -25,23 +23,25 @@ export class StatesService {
       this._states.find(s => s.routePath === state.routePath)
     );
 
+    // Check if state has been initialized
+    // Should never throw, if StateGuard has been set correctly
     if (existingStateIndex < 0) {
-      throw new Error(this.stateNotDefinedError);
+      throw new Error(this._stateNotDefinedError);
     }
 
+    // Add new state to state stack
     this._states[existingStateIndex] = state;
-    console.log('Cached state for ' + state.routePath);
   }
 
   getDoesStoreExistForRoute(route: string): boolean {
-    return this._states.find(s => s.routePath === route) !== void 0;
+    return !!this._states.find(s => s.routePath === route);
   }
 
   restore(route: string): AppState {
     const state = this._states.find(s => s.routePath === route);
 
     if (!state) {
-      throw new Error(this.stateNotDefinedError);
+      throw new Error(this._stateNotDefinedError);
     }
 
     return state;
@@ -51,10 +51,6 @@ export class StatesService {
     const stateReversed = [...this._states].reverse();
     const isForwardNavigation =
       newRoutePath.split('/').length > currentRoutePath.split('/').length;
-
-    console.log('-----');
-    stateReversed.forEach(s => console.log(s.routePath));
-    console.log('-----');
 
     this._states = [
       ...this.clearStateUntilRouteInternal(
@@ -71,25 +67,23 @@ export class StatesService {
     isForwardNavigation: boolean
   ): AppState[] {
     if (!states || !states.length) {
-      console.log('END OF CLEANUP');
-
       return states;
     }
 
+    // Forward navigation - do not clean up
     if (
       newRoutePath.split('/').length > states[0].routePath.split('/').length &&
       isForwardNavigation
     ) {
-      console.log('FW NAV - nothing to do');
       return states;
     }
 
+    // Reached current route - stop cleaning up
     if (
       newRoutePath.split('/').length ===
         states[0].routePath.split('/').length &&
       !isForwardNavigation
     ) {
-      console.log('BACK NAV AND TARGET REACHED');
       return states;
     }
 
@@ -102,12 +96,6 @@ export class StatesService {
 
     // Check if there is a state which has been set
     if (!states[0].reset) {
-      console.log(
-        'There is no state set for route ' +
-          states[0].routePath +
-          '. Nothing to cleanup.'
-      );
-
       states.splice(0, 1);
       return this.clearStateUntilRouteInternal(
         states,
@@ -116,10 +104,11 @@ export class StatesService {
       );
     }
 
-    console.log('Resetting state for ' + states[0].routePath);
-
+    // Reset state and remove it from stack
     states[0].reset();
     states.splice(0, 1);
+
+    // Start cleaning up next state in hierarchy
     return this.clearStateUntilRouteInternal(
       states,
       newRoutePath,
