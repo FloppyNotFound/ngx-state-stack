@@ -1,0 +1,1 @@
+# ngx-state-stack
