@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "yarn pretty ng build --project=ngx-state-stack",
+    "build": "yarn pretty && ng build ngx-state-stack",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
