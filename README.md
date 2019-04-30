@@ -10,9 +10,7 @@ Note: Only call forRoot() once in your project!
 
 ```typescript
 @NgModule({
-  declarations: [],
-  imports: [BrowserModule, NgxStateStackModule.forRoot()],
-  bootstrap: [AppComponent]
+  imports: [BrowserModule, NgxStateStackModule.forRoot()]
 })
 export class AppModule {}
 ```
