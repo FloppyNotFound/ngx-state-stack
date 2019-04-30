@@ -21,7 +21,7 @@ describe('StatesService', () => {
 
     expect(() => {
       service.initRoute(routePath);
-    }).toThrow(Error);
+    }).toThrowError();
   });
 
   it('should throw an error if tried to restore a state which was not initialized', () => {
@@ -31,7 +31,7 @@ describe('StatesService', () => {
 
     expect(() => {
       service.restore(routePath);
-    }).toThrow(Error);
+    }).toThrowError();
   });
 
   it('should return a state after is has been initialized', () => {
