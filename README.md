@@ -96,7 +96,7 @@ export class MyComponent {
     private _router: Router
   ) {}
 
-  leavePage(): void {
+  navigateForwards(): void {
     this._state.cache(this._router.url, this.myProperty);
 
     this._router.navigate(...);
