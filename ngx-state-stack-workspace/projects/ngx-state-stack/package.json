@@ -2,6 +2,10 @@
   "name": "ngx-state-stack",
   "version": "0.0.1",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://FloppyNotFound/ngx-state-stack.git"
+  },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
     "@angular/core": "^7.2.0"

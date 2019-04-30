@@ -2,6 +2,10 @@
   "name": "ngx-state-stack-workspace",
   "version": "0.0.0",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://FloppyNotFound/ngx-state-stack.git"
+  },
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
