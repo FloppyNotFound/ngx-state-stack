@@ -5,3 +5,4 @@
 export * from './lib/app-state.interface';
 export * from './lib/state.guard';
 export * from './lib/states.service';
+export * from './lib/ngx-state-stack.module';
