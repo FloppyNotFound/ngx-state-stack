@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "ngx-state-stack": [
+        "dist/ngx-state-stack"
+      ],
+      "ngx-state-stack/*": [
+        "dist/ngx-state-stack/*"
+      ]
+    }
   }
 }
