@@ -55,7 +55,7 @@ export class MyComponentsStateService implements AppState {
   }
 
   private _myPropertyToCache: string;
-  public get _myPropertyToCache(): string {
+  public get myPropertyToCache(): string {
     return this._myPropertyToCache;
   }
 
@@ -64,17 +64,15 @@ export class MyComponentsStateService implements AppState {
   cache(routePath: string, myPropertyToCache: string): void {
     // Save your state here to variables (Getters & private properties, or simply public properties). Make sure you set at least the current components route when calling cache()
     this._routePath = routePath;
+    this._myPropertyToCache = myPropertyToCache;
 
     // Persist your state within the StatesService
     this._states.add(routePath, this);
   }
 
   reset(): void {
-    this.fixture = null;
-    this.fixtureTeam = null;
-    this.mBetreuung = null;
-    this.pictogramSafeUrl = null;
-    this.getUsersUri = null;
+    this._routePath = null;
+    this._myPropertyToCache = null;
   }
 }
 ```
