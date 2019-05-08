@@ -1,13 +1,19 @@
 {
   "name": "ngx-state-stack",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "MIT",
+  "description": "Angular state management in form of a stack, for example when using Breadcrumbs",
+  "author": {
+    "name": "Felix Wagner",
+    "url": "https://github.com/FloppyNotFound/"
+  },
   "repository": {
     "type": "git",
     "url": "git://FloppyNotFound/ngx-state-stack.git"
   },
   "peerDependencies": {
     "@angular/common": "^7.2.0",
-    "@angular/core": "^7.2.0"
+    "@angular/core": "^7.2.0",
+    "rxjs": "~6.3.3"
   }
 }
