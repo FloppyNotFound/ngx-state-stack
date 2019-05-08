@@ -65,7 +65,7 @@ export class MyComponentsStateService implements AppState {
     this._myPropertyToCache = myPropertyToCache;
 
     // Persist your state within the StatesService
-    this._states.add(routePath, this);
+    this._states.cache(this);
   }
 
   reset(): void {
