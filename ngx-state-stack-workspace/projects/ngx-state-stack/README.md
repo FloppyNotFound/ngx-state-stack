@@ -1,24 +1,107 @@
-# NgxStateStack
+# ngx-state-stack
 
-This library was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.2.0.
+## Usage
 
-## Code scaffolding
+### Import module
 
-Run `ng generate component component-name --project ngx-state-stack` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module --project ngx-state-stack`.
-> Note: Don't forget to add `--project ngx-state-stack` or else it will be added to the default project in your `angular.json` file. 
+Import the NgxStateStackModule in your AppModule by calling forRoot().
 
-## Build
+Note: Only call forRoot() once in your project!
 
-Run `ng build ngx-state-stack` to build the project. The build artifacts will be stored in the `dist/` directory.
+```typescript
+@NgModule({
+  imports: [BrowserModule, NgxStateStackModule.forRoot()]
+})
+export class AppModule {}
+```
 
-## Publishing
+### Register on Route
 
-After building your library with `ng build ngx-state-stack`, go to the dist folder `cd dist/ngx-state-stack` and run `npm publish`.
+Add to most outer route by adding the StateGuard to CanActivateChild.
 
-## Running unit tests
+This ensures that the guard is called for every route change within the parent route.
 
-Run `ng test ngx-state-stack` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```typescript
+import { StateGuard } from 'ngx-state-stack';
 
-## Further help
+const routes: Routes = [{
+    path: 'path/to/my-component',
+    loadChildren: '...',
+    canActivateChild: [StateGuard]
+  },
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+@NgModule({
+  imports: [
+    RouterModule.forRoot()
+  ],
+  exports: [RouterModule]
+})
+export class AppRoutingModule {}
+```
+
+### Save state
+
+Create a state service which implements the AppState interface:
+
+```typescript
+import { StatesService, AppState } from 'ngx-state-stack';
+
+export class MyComponentsStateService implements AppState {
+  private _routePath: string;
+  public get routePath(): string {
+    return this._routePath;
+  }
+
+  private _myPropertyToCache: string;
+  public get myPropertyToCache(): string {
+    return this._myPropertyToCache;
+  }
+
+  constructor(private _states: StatesService) {}
+
+  cache(routePath: string, myPropertyToCache: string): void {
+    // Save your state here to variables (Getters & private properties, or simply public properties). Make sure you set at least the current components route when calling cache()
+    this._routePath = routePath;
+    this._myPropertyToCache = myPropertyToCache;
+
+    // Persist your state within the StatesService
+    this._states.add(routePath, this);
+  }
+
+  reset(): void {
+    this._routePath = null;
+    this._myPropertyToCache = null;
+  }
+}
+```
+
+Save the state in your Component, before leaving it via routing:
+
+```typescript
+import { Router } from '@angular/router';
+import { MyComponentsStateService } from '...';
+
+@Component({
+  selector: 'my-component',
+  templateUrl: './my.component.html',
+  styleUrls: ['./my.component.scss']
+})
+export class MyComponent {
+  myProperty: string;
+
+  constructor(
+    private _state: MyComponentsStateService,
+    private _router: Router
+  ) {}
+
+  navigateForwards(): void {
+    this._state.cache(this._router.url, this.myProperty);
+
+    this._router.navigate(...);
+  }
+}
+```
+
+The state is cleared automatically if you navigate back to a route which is before the current one.
+
+If you navigate back to the current page, just access the properties within your StateService, they will still be cached, as long as you don't leave the page.
