@@ -4,7 +4,7 @@ import { StateGuard } from './state.guard';
 
 @NgModule()
 export class NgxStateStackModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<NgxStateStackModule> {
     return {
       ngModule: NgxStateStackModule,
       providers: [StatesService, StateGuard]
