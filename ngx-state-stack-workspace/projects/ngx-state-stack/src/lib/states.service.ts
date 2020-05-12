@@ -98,16 +98,6 @@ export class StatesService {
       );
     }
 
-    // Check if there is a state which has been set
-    if (!states[0].reset) {
-      states.splice(0, 1);
-      return this.clearStateUntilRouteInternal(
-        states,
-        newRoutePath,
-        isForwardNavigation
-      );
-    }
-
     // Remove state from stack
     states.splice(0, 1);
 
