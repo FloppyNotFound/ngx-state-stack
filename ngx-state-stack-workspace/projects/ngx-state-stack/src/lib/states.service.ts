@@ -10,6 +10,10 @@ export class StatesService {
   private _stateNotDefinedError =
     '[StatesService] - State not found. Please check if you have set up the StateGuard correctly.';
 
+  get stateStackSize(): number {
+    return this._states?.length ?? 0;
+  }
+
   initRoute(route: string): void {
     if (this._states.findIndex(s => s.routePath === route) >= 0) {
       throw new Error(this._duplicateRouteInitError + route);
@@ -104,8 +108,7 @@ export class StatesService {
       );
     }
 
-    // Reset state and remove it from stack
-    states[0].reset();
+    // Remove state from stack
     states.splice(0, 1);
 
     // Start cleaning up next state in hierarchy
