@@ -2,6 +2,19 @@ import { TestBed, inject } from '@angular/core/testing';
 import { StatesService } from './states.service';
 import { AppState } from './app-state.interface';
 
+class TestAppState implements AppState {
+  routePath: string;
+  stateObj: { stateProp: string };
+
+  cache(route: string, ...params: any[]): void {
+    this.routePath = route;
+    this.stateObj = params[0];
+  }
+  reset(): void {
+    throw new Error('Method not implemented.');
+  }
+}
+
 describe('StatesService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,7 +29,7 @@ describe('StatesService', () => {
   it('should throw an error, if same route is initialized twice', () => {
     const routePath = '/my/route';
 
-    const service: StatesService = TestBed.get(StatesService);
+    const service: StatesService = TestBed.inject(StatesService);
     service.initRoute(routePath);
 
     expect(() => {
@@ -27,7 +40,7 @@ describe('StatesService', () => {
   it('should throw an error if tried to restore a state which was not initialized', () => {
     const routePath = '/my/route';
 
-    const service: StatesService = TestBed.get(StatesService);
+    const service: StatesService = TestBed.inject(StatesService);
 
     expect(() => {
       service.restore(routePath);
@@ -38,10 +51,124 @@ describe('StatesService', () => {
     const routePath = '/my/route';
     const state = { routePath: routePath } as AppState;
 
-    const service: StatesService = TestBed.get(StatesService);
+    const service: StatesService = TestBed.inject(StatesService);
     service.initRoute(routePath);
 
     service.cache(state);
+
+    expect(service.restore(routePath).routePath).toEqual(routePath);
+  });
+
+  it('should clear the initialized state, if the new state is below the current state', () => {
+    const routePath = '/my/route';
+    const state = { routePath: routePath } as AppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+    service.initRoute(routePath);
+
+    service.cache(state);
+
+    service.clearStateUntilRoute(routePath, '/');
+
+    expect(() => service.restore(routePath)).toThrow(
+      new Error(
+        '[StatesService] - State not found. Please check if you have set up the StateGuard correctly.'
+      )
+    );
+  });
+
+  it('should prevail the first state, if the new state is above the current state, but a lower one than before', () => {
+    const routePathOne = '/one';
+    const routePathTwo = routePathOne + '/two';
+    const routePathThree = routePathTwo + '/three';
+
+    const stateOne = { routePath: routePathOne } as AppState;
+    const stateTwo = { routePath: routePathTwo } as AppState;
+    const stateThree = {
+      routePath: routePathThree
+    } as AppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+
+    service.initRoute(routePathOne);
+    service.cache(stateOne);
+
+    service.initRoute(routePathTwo);
+    service.cache(stateTwo);
+
+    service.initRoute(routePathThree);
+    service.cache(stateThree);
+
+    service.clearStateUntilRoute(routePathThree, routePathTwo);
+
+    expect(service.stateStackSize).toBe(2);
+
+    expect(service.restore(routePathOne).routePath).toEqual(routePathOne);
+    expect(service.restore(routePathTwo).routePath).toEqual(routePathTwo);
+    expect(() => service.restore(routePathThree)).toThrow(
+      new Error(
+        '[StatesService] - State not found. Please check if you have set up the StateGuard correctly.'
+      )
+    );
+  });
+
+  it('should create a new state, when navigated back and to again', () => {
+    const routePathOne = '/one';
+    const routePathTwo = routePathOne + '/two';
+
+    const stateOne = { routePath: routePathOne } as AppState;
+
+    const stateTwoFirst = {
+      routePath: routePathTwo,
+      stateObj: { stateProp: 'Lorem' }
+    } as TestAppState;
+
+    const stateTwoSecond = {
+      routePath: routePathTwo
+    } as TestAppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+
+    service.initRoute(routePathOne);
+    service.cache(stateOne);
+
+    service.initRoute(routePathTwo);
+    service.cache(stateTwoFirst);
+
+    service.clearStateUntilRoute(routePathTwo, routePathOne);
+
+    service.initRoute(routePathTwo);
+    service.cache(stateTwoSecond);
+
+    expect(
+      (<TestAppState>service.restore(routePathTwo)).stateObj
+    ).toBeUndefined();
+  });
+
+  it('should prevail the initialized state, if the new state equals the current state', () => {
+    const routePath = '/my/route';
+    const state = { routePath: routePath } as AppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+    service.initRoute(routePath);
+
+    service.cache(state);
+
+    service.clearStateUntilRoute(routePath, routePath);
+
+    expect(service.restore(routePath).routePath).toEqual(routePath);
+  });
+
+  it('should prevail the initialized state, if the new state is above the current state', () => {
+    const routePath = '/my/route';
+    const state = { routePath: routePath } as AppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+    service.initRoute(routePath);
+
+    service.cache(state);
+
+    service.clearStateUntilRoute(routePath, routePath + '/next');
 
     expect(service.restore(routePath).routePath).toEqual(routePath);
   });
