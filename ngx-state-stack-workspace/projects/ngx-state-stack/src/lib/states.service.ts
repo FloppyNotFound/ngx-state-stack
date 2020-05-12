@@ -3,6 +3,8 @@ import { AppState } from './app-state.interface';
 
 @Injectable()
 export class StatesService {
+  readonly stackId: string;
+
   private _states: AppState[] = [];
 
   private _duplicateRouteInitError =
@@ -12,6 +14,10 @@ export class StatesService {
 
   get stateStackSize(): number {
     return this._states?.length ?? 0;
+  }
+
+  constructor() {
+    this.stackId = this.createUuid();
   }
 
   initRoute(route: string): void {
@@ -98,7 +104,14 @@ export class StatesService {
       );
     }
 
-    // Remove state from stack
+    // Reset service props and remove state from stack
+    Object.keys(states[0]).forEach(propKey => {
+      if (states[0][propKey]?.stackId === this.stackId) {
+        // Prevent deletion of stack
+        return;
+      }
+      states[0][propKey] = null;
+    });
     states.splice(0, 1);
 
     // Start cleaning up next state in hierarchy
@@ -107,5 +120,15 @@ export class StatesService {
       newRoutePath,
       isForwardNavigation
     );
+  }
+
+  private createUuid(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (
+      c
+    ) {
+      const r = (Math.random() * 16) | 0;
+      const v = c == 'x' ? r : (r & 0x3) | 0x8;
+      return v.toString(16);
+    });
   }
 }
