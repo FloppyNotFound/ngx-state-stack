@@ -9,12 +9,14 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:play": "ng serve --poll 2000 ngx-state-stack-playground",
     "build": "yarn pretty && ng build ngx-state-stack",
     "build:prod": "yarn pretty && ng build ngx-state-stack --configuration=production",
+    "build:play": "yarn pretty && ng build ngx-state-stack-playground",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "pretty": "prettier --write ./projects/ngx-state-stack/src/lib/**/*.{ts,js,css,scss,json}",
+    "pretty": "prettier --write ./projects/ngx-state-stack/src/lib/**/*.ts",
     "pretty-quick": "pretty-quick"
   },
   "private": true,

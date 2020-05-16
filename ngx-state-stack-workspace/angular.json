@@ -41,6 +41,121 @@
           }
         }
       }
+    },
+    "ngx-state-stack-playground": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "projects/ngx-state-stack-playground",
+      "sourceRoot": "projects/ngx-state-stack-playground/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ngx-state-stack-playground",
+            "index": "projects/ngx-state-stack-playground/src/index.html",
+            "main": "projects/ngx-state-stack-playground/src/main.ts",
+            "polyfills": "projects/ngx-state-stack-playground/src/polyfills.ts",
+            "tsConfig": "projects/ngx-state-stack-playground/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "projects/ngx-state-stack-playground/src/favicon.ico",
+              "projects/ngx-state-stack-playground/src/assets"
+            ],
+            "styles": ["projects/ngx-state-stack-playground/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/ngx-state-stack-playground/src/environments/environment.ts",
+                  "with": "projects/ngx-state-stack-playground/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ngx-state-stack-playground:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ngx-state-stack-playground:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ngx-state-stack-playground:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/ngx-state-stack-playground/src/test.ts",
+            "polyfills": "projects/ngx-state-stack-playground/src/polyfills.ts",
+            "tsConfig": "projects/ngx-state-stack-playground/tsconfig.spec.json",
+            "karmaConfig": "projects/ngx-state-stack-playground/karma.conf.js",
+            "assets": [
+              "projects/ngx-state-stack-playground/src/favicon.ico",
+              "projects/ngx-state-stack-playground/src/assets"
+            ],
+            "styles": ["projects/ngx-state-stack-playground/src/styles.scss"],
+            "scripts": []
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/ngx-state-stack-playground/tsconfig.app.json",
+              "projects/ngx-state-stack-playground/tsconfig.spec.json",
+              "projects/ngx-state-stack-playground/e2e/tsconfig.json"
+            ],
+            "exclude": ["**/node_modules/**"]
+          }
+        },
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/ngx-state-stack-playground/e2e/protractor.conf.js",
+            "devServerTarget": "ngx-state-stack-playground:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ngx-state-stack-playground:serve:production"
+            }
+          }
+        }
+      }
     }
   },
   "defaultProject": "ngx-state-stack",
