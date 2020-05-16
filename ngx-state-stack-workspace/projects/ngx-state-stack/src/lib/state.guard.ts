@@ -15,6 +15,8 @@ export class StateGuard implements CanActivateChild {
     childRoute: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
+    console.log('route changed', window.location.pathname, childRoute, state);
+
     // Go through state stack and delete routes which are after the current one
     this._statesService.clearStateUntilRoute(
       window.location.pathname,

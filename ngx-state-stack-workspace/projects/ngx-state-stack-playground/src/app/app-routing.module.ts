@@ -1,29 +1,34 @@
-import { AppComponent } from './app.component';
+import { StateGuard } from 'ngx-state-stack';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { FirstComponent } from './first/first.component';
 import { SecondComponent } from './second/second.component';
+import { ThirdComponent } from './third/third.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'first',
-    pathMatch: 'full'
-  },
-  {
-    path: 'first',
-    component: FirstComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'first/second',
-    component: SecondComponent,
-    pathMatch: 'full'
-  },
-  {
-    path: 'first/second/first',
-    component: FirstComponent,
-    pathMatch: 'full'
+    canActivateChild: [StateGuard],
+    children: [
+      {
+        path: '',
+        redirectTo: 'main',
+        pathMatch: 'full'
+      },
+      {
+        path: 'main',
+        component: FirstComponent,
+        pathMatch: 'full'
+      },
+      {
+        path: 'main/second',
+        component: SecondComponent
+      },
+      {
+        path: 'main/third',
+        component: ThirdComponent
+      }
+    ]
   }
 ];
 

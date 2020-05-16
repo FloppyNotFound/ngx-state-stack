@@ -7,15 +7,17 @@ import { AppComponent } from './app.component';
 import { FirstComponent } from './first/first.component';
 import { SecondComponent } from './second/second.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { ThirdComponent } from './third/third.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FirstComponent,
     SecondComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ThirdComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, NgxStateStackModule],
+  imports: [BrowserModule, AppRoutingModule, NgxStateStackModule.forRoot()],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
