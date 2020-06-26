@@ -1,5 +1,7 @@
 # ngx-state-stack
 
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 ## Usage
 
 ### Import module
@@ -66,12 +68,6 @@ export class MyComponentsStateService implements AppState {
 
     // Persist your state within the StatesService
     this._states.cache(this);
-  }
-
-  // Note: starting from v3.1.0, you don't need to reset manually any more
-  reset(): void {
-    this._routePath = null;
-    this._myPropertyToCache = null;
   }
 }
 ```
