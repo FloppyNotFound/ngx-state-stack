@@ -10,9 +10,6 @@ class TestAppState implements AppState {
     this.routePath = route;
     this.stateObj = params[0];
   }
-  reset(): void {
-    throw new Error('Method not implemented.');
-  }
 }
 
 describe('StatesService', () => {

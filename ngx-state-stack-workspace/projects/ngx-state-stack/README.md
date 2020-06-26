@@ -69,12 +69,6 @@ export class MyComponentsStateService implements AppState {
     // Persist your state within the StatesService
     this._states.cache(this);
   }
-
-  // Note: starting from v3.1.0, you don't need to reset manually any more
-  reset(): void {
-    this._routePath = null;
-    this._myPropertyToCache = null;
-  }
 }
 ```
 
