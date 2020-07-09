@@ -89,11 +89,7 @@ export class StatesService {
     }
 
     // Reached current route - stop cleaning up
-    if (
-      newRoutePath.split('/').length ===
-        states[0].routePath.split('/').length &&
-      !isForwardNavigation
-    ) {
+    if (states[0].routePath === newRoutePath && !isForwardNavigation) {
       return states;
     }
 
