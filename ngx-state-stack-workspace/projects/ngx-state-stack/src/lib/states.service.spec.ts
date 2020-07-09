@@ -74,6 +74,24 @@ describe('StatesService', () => {
     );
   });
 
+  it('should clear the initialized state, if the new state is at the same level the current state, but has a different root path', () => {
+    const routePath = '/my/route';
+    const state = { routePath: routePath } as AppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+    service.initRoute(routePath);
+
+    service.cache(state);
+
+    service.clearStateUntilRoute(routePath, '/other/route');
+
+    expect(() => service.restore(routePath)).toThrow(
+      new Error(
+        '[StatesService] - State not found. Please check if you have set up the StateGuard correctly.'
+      )
+    );
+  });
+
   it('should prevail the first state, if the new state is above the current state, but a lower one than before', () => {
     const routePathOne = '/one';
     const routePathTwo = routePathOne + '/two';

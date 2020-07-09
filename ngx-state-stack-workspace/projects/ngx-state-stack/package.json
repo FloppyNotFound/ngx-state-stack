@@ -1,6 +1,6 @@
 {
   "name": "ngx-state-stack",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "license": "MIT",
   "description": "Angular state management in form of a stack, for example when using Breadcrumbs",
   "author": {
