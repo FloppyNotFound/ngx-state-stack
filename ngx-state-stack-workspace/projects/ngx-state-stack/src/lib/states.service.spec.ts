@@ -127,6 +127,37 @@ describe('StatesService', () => {
     );
   });
 
+  it('should prevail the first state, if the new state is on the same level as the old state and above the current state', () => {
+    const routePathOne = '/one';
+    const routePathTwo = '/one/childOne';
+    const routePathThree = '/one/childTwo';
+
+    const stateOne = { routePath: routePathOne } as AppState;
+
+    const service: StatesService = TestBed.inject(StatesService);
+
+    service.initRoute(routePathOne);
+    service.cache(stateOne);
+
+    service.initRoute(routePathTwo);
+
+    service.clearStateUntilRoute(routePathTwo, routePathThree);
+
+    service.initRoute(routePathThree);
+
+    expect(service.stateStackSize).toBe(2);
+
+    const expectedError = new Error(
+      '[StatesService] - State not found. Please check if you have set up the StateGuard correctly.'
+    );
+
+    expect(service.restore(routePathOne).routePath).toBe(routePathOne);
+    expect(() => service.restore(routePathTwo).routePath).toThrow(
+      expectedError
+    );
+    expect(service.restore(routePathThree).routePath).toBe(routePathThree);
+  });
+
   it('should create a new state, when navigated back and to again', () => {
     const routePathOne = '/one';
     const routePathTwo = routePathOne + '/two';
