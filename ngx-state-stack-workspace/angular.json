@@ -10,7 +10,7 @@
       "prefix": "ngx-state-stack",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "projects/ngx-state-stack/tsconfig.lib.json",
             "project": "projects/ngx-state-stack/ng-package.json"
