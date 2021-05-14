@@ -3,5 +3,5 @@
 
 cd ngx-state-stack-workspace/
 
-yarn pretty-quick --staged
+yarn pretty-quick
 yarn lint
