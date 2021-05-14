@@ -1,6 +1,6 @@
 {
   "name": "ngx-state-stack",
-  "version": "4.0.2",
+  "version": "11.0.0",
   "license": "MIT",
   "description": "Angular state management in form of a stack, for example when using Breadcrumbs",
   "author": {
@@ -17,9 +17,9 @@
     "Breadcrumbs"
   ],
   "peerDependencies": {
-    "@angular/common": "^10.0.0",
-    "@angular/core": "^10.0.0",
-    "rxjs": "~6.5.5"
+    "@angular/common": "^11.0.0",
+    "@angular/core": "^11.0.0",
+    "rxjs": "~6.6.0"
   },
   "dependencies": {
     "tslib": "^2.0.0"
