@@ -28,4 +28,6 @@ jobs:
     - name: Yarn CLI
       uses: CultureHQ/actions-yarn@v1.0.1
     - run: yarn
+      working-directory: ngx-state-stack-workspace
     - run: yarn build:prod
+      working-directory: ngx-state-stack-workspace
