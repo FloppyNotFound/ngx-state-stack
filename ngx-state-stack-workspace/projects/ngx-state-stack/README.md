@@ -2,7 +2,7 @@
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-[![Yarn Build](https://github.com/FloppyNotFound/ngx-state-stack/actions/workflows/node.js.yml/badge.svg)](https://github.com/FloppyNotFound/ngx-state-stack/actions/workflows/node.js.yml)
+[![Node.js CI](https://github.com/FloppyNotFound/ngx-state-stack/actions/workflows/node.js.yml/badge.svg)](https://github.com/FloppyNotFound/ngx-state-stack/actions/workflows/node.js.yml)
 
 ## Usage
 
