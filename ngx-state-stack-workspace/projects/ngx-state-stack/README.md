@@ -2,6 +2,8 @@
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
+[![Yarn Build](https://github.com/FloppyNotFound/ngx-state-stack/actions/workflows/node.js.yml/badge.svg)](https://github.com/FloppyNotFound/ngx-state-stack/actions/workflows/node.js.yml)
+
 ## Usage
 
 ### Import module
@@ -62,11 +64,9 @@ export class MyComponentsStateService implements AppState {
   constructor(private _states: StatesService) {}
 
   cache(routePath: string, myPropertyToCache: string): void {
-    // Save your state here to variables (Getters & private properties, or simply public properties). Make sure you set at least the current components route when calling cache()
     this._routePath = routePath;
     this._myPropertyToCache = myPropertyToCache;
 
-    // Persist your state within the StatesService
     this._states.cache(this);
   }
 }
